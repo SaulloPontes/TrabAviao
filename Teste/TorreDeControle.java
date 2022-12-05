@@ -117,16 +117,16 @@ public class TorreDeControle {
 
 
 
-
+            Aviao x;
 
             if(seg%2==0){
 
                 id++;
                 if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
                     pistaUm.filaDecolagem.entrarNaFila(id,1000);
-                }else if(pistaUm.filaDecolagem.getTotalDeAvioes() > pistaDois.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                }else if(pistaUm.filaDecolagem.getTotalDeAvioes() > pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
                     pistaDois.filaDecolagem.entrarNaFila(id,1000);
-                }else{
+                }else if (pistaUm.filaDecolagem.getTotalDeAvioes()> pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes()){
                     pistaTres.filaDecolagem.entrarNaFila(id,1000);
                 }
 
@@ -143,22 +143,21 @@ public class TorreDeControle {
                 if(seg>=30  ){
 
                     if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                        Aviao x = pistaUm.filaDecolagem.sairDaFila();
+                         x = pistaUm.filaDecolagem.sairDaFila();
                         if(x!=null){
                             System.out.println("DECOLOU:"+x);
                         }
-                    }else if(pistaDois.filaDecolagem.getTotalDeAvioes() > pistaUm.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                        Aviao x = pistaDois.filaDecolagem.sairDaFila();
+                    }else if(pistaUm.filaDecolagem.getTotalDeAvioes() < pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() < pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                         x = pistaDois.filaDecolagem.sairDaFila();
                         if(x!=null){
                             System.out.println("DECOLOU:"+x);
                         }
                     }else{
-                        Aviao x = pistaTres.filaDecolagem.sairDaFila();
+                         x = pistaTres.filaDecolagem.sairDaFila();
                         if(x!=null){
                             System.out.println("DECOLOU:"+x);
                         }
                     }
-
 
                 }
             }
@@ -184,7 +183,7 @@ public class TorreDeControle {
 
 
 
-            }
+        }
 
     }
 
@@ -205,7 +204,7 @@ public class TorreDeControle {
                 av = pista.filaUm.sairDaFila();
                 System.out.println("Na pista " +pista.getNumeroDaPista()+ " o avião aterrizou "+av);
                 if(pista.getTotalDeAviaoParaAterrizar()>0){
-                    pista.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()-1);
+                    pista.setTotalDeAviaoParaAterrizar(pista.getTotalDeAviaoParaAterrizar()-1);
                 }
             }
 
@@ -218,7 +217,7 @@ public class TorreDeControle {
                 av = pista.filaDois.sairDaFila();
                 System.out.println("Na pista " +pista.getNumeroDaPista()+" o avião aterrizou "+av);
                 if(pista.getTotalDeAviaoParaAterrizar()>0){
-                    pista.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()-1);
+                    pista.setTotalDeAviaoParaAterrizar(pista.getTotalDeAviaoParaAterrizar()-1);
                 }
             }
 

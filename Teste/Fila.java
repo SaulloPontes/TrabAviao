@@ -38,8 +38,8 @@ public class Fila {
             }
             auxiliar.proximo_no = novo;
 
-            this.setTotalDeAvioes(getTotalDeAvioes()+1);
         }
+        this.setTotalDeAvioes(getTotalDeAvioes()+1);
     }
 
     public Aviao sairDaFila(){
@@ -50,7 +50,7 @@ public class Fila {
             removido = inicio_fila;
             inicio_fila = inicio_fila.proximo_no;
         }
-        if(totalDeAvioes>0){
+        if(this.getTotalDeAvioes()>0){
             this.setTotalDeAvioes(getTotalDeAvioes()-1);
         }
         return removido;
@@ -92,7 +92,7 @@ public class Fila {
 
 
         }
-        if(totalDeAvioes>0){
+        if(this.getTotalDeAvioes()>0){
             this.setTotalDeAvioes(getTotalDeAvioes()-1);
         }
         return removido;
@@ -103,17 +103,17 @@ public class Fila {
 
         Aviao novo = new Aviao(id,comb);
         Aviao auxiliar = inicio_fila;
-            int indice = 0;
-            while(indice<i && auxiliar!=null){
-                auxiliar = auxiliar.proximo_no;
-                indice = indice + 1;
-            }
-            if(auxiliar==null){
-                entrarNaFila(id,comb);
-            }else{
-                novo.proximo_no = auxiliar.proximo_no;
-                auxiliar.proximo_no = novo;
-            }
+        int indice = 0;
+        while(indice<i && auxiliar!=null){
+            auxiliar = auxiliar.proximo_no;
+            indice = indice + 1;
+        }
+        if(auxiliar==null){
+            entrarNaFila(id,comb);
+        }else{
+            novo.proximo_no = auxiliar.proximo_no;
+            auxiliar.proximo_no = novo;
+        }
 
         this.setTotalDeAvioes(getTotalDeAvioes()+1);
     }
@@ -143,13 +143,13 @@ public class Fila {
         while(aviaoAtual != null){
 
             if(aviaoAtual.combustivel<=15){
-               removido= this.removerPosicao(posicao);
-              int id = removido.ID;
-              int comb = removido.combustivel;
-              pistaReserva.filaUm.entrarNaFila(id,comb);
-              System.out.println("O avião:"+removido+" usou a pista:"+pistaReserva.getNumeroDaPista()+" e aterrizou,pois estava com pouco combustivel: "+removido.combustivel+" de combustivel");
-              pistaReserva.filaUm.sairDaFila();
-              pistaReserva.setAvioesSemReserva(pistaReserva.getAvioesSemReserva()+1);
+                removido= this.removerPosicao(posicao);
+                int id = removido.ID;
+                int comb = removido.combustivel;
+                pistaReserva.filaUm.entrarNaFila(id,comb);
+                System.out.println("O avião:"+removido+" usou a pista:"+pistaReserva.getNumeroDaPista()+" e aterrizou,pois estava com pouco combustivel: "+removido.combustivel+" de combustivel");
+                pistaReserva.filaUm.sairDaFila();
+                pistaReserva.setAvioesSemReserva(pistaReserva.getAvioesSemReserva()+1);
             }
 
 
