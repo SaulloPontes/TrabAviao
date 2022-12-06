@@ -33,10 +33,10 @@ public class Fila {
             inicio_fila = novo;
         }else{
             Aviao auxiliar = inicio_fila;
-            while (auxiliar.proximo_no!=null){
-                auxiliar = auxiliar.proximo_no;
+            while (auxiliar.proximo_aviao !=null){
+                auxiliar = auxiliar.proximo_aviao;
             }
-            auxiliar.proximo_no = novo;
+            auxiliar.proximo_aviao = novo;
 
         }
         this.setTotalDeAvioes(getTotalDeAvioes()+1);
@@ -48,7 +48,7 @@ public class Fila {
             System.out.println("Fila vazia");
         }else{
             removido = inicio_fila;
-            inicio_fila = inicio_fila.proximo_no;
+            inicio_fila = inicio_fila.proximo_aviao;
         }
         if(this.getTotalDeAvioes()>0){
             this.setTotalDeAvioes(getTotalDeAvioes()-1);
@@ -65,7 +65,7 @@ public class Fila {
         aviaoAtual = inicio_fila;
         while(aviaoAtual != null){
             System.out.println(aviaoAtual);
-            aviaoAtual = aviaoAtual.proximo_no;
+            aviaoAtual = aviaoAtual.proximo_aviao;
         }
     }
 
@@ -82,12 +82,12 @@ public class Fila {
 
             while (indice<i && removido!=null){
                 auxiliar = removido;
-                removido = removido.proximo_no;
+                removido = removido.proximo_aviao;
                 indice++;
             }
 
             if(removido!=null){
-                auxiliar.proximo_no = removido.proximo_no;
+                auxiliar.proximo_aviao = removido.proximo_aviao;
             }
 
 
@@ -105,19 +105,20 @@ public class Fila {
         Aviao auxiliar = inicio_fila;
         int indice = 0;
         while(indice<i && auxiliar!=null){
-            auxiliar = auxiliar.proximo_no;
+            auxiliar = auxiliar.proximo_aviao;
             indice = indice + 1;
         }
         if(auxiliar==null){
             entrarNaFila(id,comb);
         }else{
-            novo.proximo_no = auxiliar.proximo_no;
-            auxiliar.proximo_no = novo;
+            novo.proximo_aviao = auxiliar.proximo_aviao;
+            auxiliar.proximo_aviao = novo;
         }
 
         this.setTotalDeAvioes(getTotalDeAvioes()+1);
     }
 
+    /*
     public Aviao retornar_posicao(int pos) throws Exception {
 
 
@@ -132,6 +133,25 @@ public class Fila {
         }
 
 
+    }
+
+     */
+
+    public Aviao retornar_posicao(int pos){
+        Aviao aviaoAtual;
+        Aviao retorno = null;
+        aviaoAtual = inicio_fila;
+        int cont=0;
+        while(aviaoAtual != null){
+
+            if(cont==pos){
+                retorno = aviaoAtual;
+                break;
+            }
+            aviaoAtual = aviaoAtual.proximo_aviao;
+            cont++;
+        }
+        return retorno;
     }
 
     public void perderCombustivel(Pista pistaReserva){
@@ -153,9 +173,11 @@ public class Fila {
             }
 
 
+
+
             aviaoAtual.combustivel = aviaoAtual.combustivel-5;
 
-            aviaoAtual = aviaoAtual.proximo_no;
+            aviaoAtual = aviaoAtual.proximo_aviao;
             posicao++;
         }
     }

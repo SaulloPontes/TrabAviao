@@ -10,6 +10,7 @@ public class Main {
          */
 
 
+
         Aeroporto x = new Aeroporto();
 
         x.gerenciarAeroporto();
@@ -17,7 +18,5 @@ public class Main {
 
 
 
-
-
-    }
+}
 }
