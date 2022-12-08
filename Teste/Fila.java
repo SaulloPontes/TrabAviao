@@ -71,72 +71,6 @@ public class Fila {
 
 
 
-    public Aviao removerPosicao(int i){
-        Aviao removido = null;
-        Aviao auxiliar;
-        int indice =0;
-        if(fila_vazia() || i<=0){
-            removido = sairDaFila();
-        }else{
-            removido = auxiliar = inicio_fila;
-
-            while (indice<i && removido!=null){
-                auxiliar = removido;
-                removido = removido.proximo_aviao;
-                indice++;
-            }
-
-            if(removido!=null){
-                auxiliar.proximo_aviao = removido.proximo_aviao;
-            }
-
-
-        }
-        if(this.getTotalDeAvioes()>0){
-            this.setTotalDeAvioes(getTotalDeAvioes()-1);
-        }
-        return removido;
-    }
-
-
-    public void furarFila(int id, int comb, int i){
-
-        Aviao novo = new Aviao(id,comb);
-        Aviao auxiliar = inicio_fila;
-        int indice = 0;
-        while(indice<i && auxiliar!=null){
-            auxiliar = auxiliar.proximo_aviao;
-            indice = indice + 1;
-        }
-        if(auxiliar==null){
-            entrarNaFila(id,comb);
-        }else{
-            novo.proximo_aviao = auxiliar.proximo_aviao;
-            auxiliar.proximo_aviao = novo;
-        }
-
-        this.setTotalDeAvioes(getTotalDeAvioes()+1);
-    }
-
-    /*
-    public Aviao retornar_posicao(int pos) throws Exception {
-
-
-        if(fila_vazia()){
-            throw new Exception("fila vazia");
-        }else{
-            Aviao removido = this.removerPosicao(pos);
-            int id = removido.ID;
-            int comb= removido.combustivel;
-            this.furarFila(id,comb,pos);
-            return removido;
-        }
-
-
-    }
-
-     */
-
     public Aviao retornar_posicao(int pos){
         Aviao aviaoAtual;
         Aviao retorno = null;
@@ -156,26 +90,24 @@ public class Fila {
 
     public void perderCombustivel(Pista pistaReserva){
         Aviao aviaoAtual;
-        Aviao removido;
+        Aviao verifica;
+
         aviaoAtual = inicio_fila;
         int posicao =0;
 
         while(aviaoAtual != null){
 
-            if(aviaoAtual.combustivel<=15){
-                removido= this.removerPosicao(posicao);
-                int id = removido.ID;
-                int comb = removido.combustivel;
-                pistaReserva.filaUm.entrarNaFila(id,comb);
-                System.out.println("O avião:"+removido+" usou a pista:"+pistaReserva.getNumeroDaPista()+" e aterrizou,pois estava com pouco combustivel: "+removido.combustivel+" de combustivel");
+            aviaoAtual.combustivel = aviaoAtual.combustivel-5;
+
+            verifica = retornar_posicao(posicao);
+
+            if(verifica.combustivel<=15){
+                pistaReserva.filaUm.entrarNaFila(verifica.ID,verifica.combustivel);
+                System.out.println("O avião:"+verifica+" usou a pista:"+pistaReserva.getNumeroDaPista()+" e aterrizou,pois estava com pouco combustivel: "+verifica.combustivel+" de combustivel");
                 pistaReserva.filaUm.sairDaFila();
                 pistaReserva.setAvioesSemReserva(pistaReserva.getAvioesSemReserva()+1);
             }
 
-
-
-
-            aviaoAtual.combustivel = aviaoAtual.combustivel-5;
 
             aviaoAtual = aviaoAtual.proximo_aviao;
             posicao++;
