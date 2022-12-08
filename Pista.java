@@ -12,12 +12,15 @@ public class Pista {
 
     Fila filaDecolagem;
 
+    private int totalDeAviaoParaDecolar;
+
 
     public  Pista(int prateleirasDeEsperaDeAterrissagem,int numeroPista){
 
         this.prateleirasDeEsperaDeAterrissagem = prateleirasDeEsperaDeAterrissagem;
         this.numeroDaPista = numeroPista;
         this.totalDeAviaoParaAterrizar =0;
+        this.totalDeAviaoParaDecolar=0;
         this.avioesSemReserva=0;
         this.filaDecolagem = new Fila();
         if(this.prateleirasDeEsperaDeAterrissagem>=2){
@@ -27,6 +30,14 @@ public class Pista {
             this.filaUm = new Fila();
         }
 
+    }
+
+    public int getTotalDeAviaoParaDecolar() {
+        return totalDeAviaoParaDecolar;
+    }
+
+    public void setTotalDeAviaoParaDecolar(int totalDeAviaoParaDecolar) {
+        this.totalDeAviaoParaDecolar = totalDeAviaoParaDecolar;
     }
 
     public int getAvioesSemReserva() {

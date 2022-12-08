@@ -1,6 +1,3 @@
-import java.util.Objects;
-import java.util.Scanner;
-
 public class Aeroporto {
 
 
@@ -8,9 +5,9 @@ public class Aeroporto {
 
     TorreDeControle torreDeControle = new TorreDeControle();
 
-    public  void aterrizar() throws Exception {
+    public  void gerenciarAeroporto() throws Exception {
 
-        torreDeControle.controleAterrizagem();
+        torreDeControle.controlePista();
 
 
     }

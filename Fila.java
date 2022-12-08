@@ -1,7 +1,8 @@
 public class Fila {
 
     Aviao inicio_fila;
-    int totalDeAvioes;
+    private int totalDeAvioes;
+
 
     public  Fila(){
         this.inicio_fila = null;
@@ -33,13 +34,13 @@ public class Fila {
             inicio_fila = novo;
         }else{
             Aviao auxiliar = inicio_fila;
-            while (auxiliar.proximo_no!=null){
-                auxiliar = auxiliar.proximo_no;
+            while (auxiliar.proximo_aviao !=null){
+                auxiliar = auxiliar.proximo_aviao;
             }
-            auxiliar.proximo_no = novo;
+            auxiliar.proximo_aviao = novo;
 
-            this.setTotalDeAvioes(getTotalDeAvioes()+1);
         }
+        this.setTotalDeAvioes(getTotalDeAvioes()+1);
     }
 
     public Aviao sairDaFila(){
@@ -48,9 +49,9 @@ public class Fila {
             System.out.println("Fila vazia");
         }else{
             removido = inicio_fila;
-            inicio_fila = inicio_fila.proximo_no;
+            inicio_fila = inicio_fila.proximo_aviao;
         }
-        if(totalDeAvioes>0){
+        if(this.getTotalDeAvioes()>0){
             this.setTotalDeAvioes(getTotalDeAvioes()-1);
         }
         return removido;
@@ -65,94 +66,45 @@ public class Fila {
         aviaoAtual = inicio_fila;
         while(aviaoAtual != null){
             System.out.println(aviaoAtual);
-            aviaoAtual = aviaoAtual.proximo_no;
+            aviaoAtual = aviaoAtual.proximo_aviao;
         }
     }
 
 
 
-    public Aviao removerPosicao(int i){
-        Aviao removido = null;
-        Aviao auxiliar;
-        int indice =0;
-        if(fila_vazia() || i<=0){
-            removido = sairDaFila();
-        }else{
-            removido = auxiliar = inicio_fila;
-
-            while (indice<i && removido!=null){
-                auxiliar = removido;
-                removido = removido.proximo_no;
-                indice++;
-            }
-
-        }
-        if(totalDeAvioes>0){
-            this.setTotalDeAvioes(getTotalDeAvioes()-1);
-        }
-        return removido;
-    }
-
-
-    public void furarFila(int id, int comb, int i){
-
-        Aviao novo = new Aviao(id,comb);
-        Aviao auxiliar = inicio_fila;
-            int indice = 0;
-            while(indice<i && auxiliar!=null){
-                auxiliar = auxiliar.proximo_no;
-                indice = indice + 1;
-            }
-            if(auxiliar==null){
-                entrarNaFila(id,comb);
-            }else{
-                novo.proximo_no = auxiliar.proximo_no;
-                auxiliar.proximo_no = novo;
-            }
-
-        this.setTotalDeAvioes(getTotalDeAvioes()+1);
-    }
-
-    public Aviao retornar_posicao(int pos) throws Exception {
-
-
-        if(fila_vazia()){
-            throw new Exception("fila vazia");
-        }else{
-            Aviao removido = this.removerPosicao(pos);
-            int id = removido.ID;
-            int comb= removido.combustivel;
-            this.furarFila(id,comb,pos);
-            return removido;
-        }
-
-
-    }
-
-    public void perderCombustivel(Pista pistaReserva){
+    public Aviao retornar_posicao(int pos){
         Aviao aviaoAtual;
-        Aviao removido;
+        Aviao retorno = null;
         aviaoAtual = inicio_fila;
-        int ct =0;
+        int cont=0;
+        while(aviaoAtual != null){
+
+            if(cont==pos){
+                retorno = aviaoAtual;
+                break;
+            }
+            aviaoAtual = aviaoAtual.proximo_aviao;
+            cont++;
+        }
+        return retorno;
+    }
+
+    public void perderCombustivel(){
+
+        Aviao aviaoAtual;
+
+        aviaoAtual = inicio_fila;
 
         while(aviaoAtual != null){
 
-            if(aviaoAtual.combustivel<=5){
-               removido= this.removerPosicao(ct);
-              int id = removido.ID;
-              int comb = removido.combustivel;
-              pistaReserva.filaUm.entrarNaFila(id,comb);
-              System.out.println("O avião:"+removido+" usou a pista:"+pistaReserva.getNumeroDaPista()+" e aterrizou,pois estava com: "+removido.combustivel+" de combustivel");
-              pistaReserva.filaUm.sairDaFila();
-              pistaReserva.setAvioesSemReserva(pistaReserva.getAvioesSemReserva()+1);
-            }
-            aviaoAtual.combustivel = aviaoAtual.combustivel-1;
+            aviaoAtual.combustivel = aviaoAtual.combustivel-5;
+            aviaoAtual = aviaoAtual.proximo_aviao;
 
-            aviaoAtual = aviaoAtual.proximo_no;
-            ct++;
         }
     }
 
 
-
 }
+
+
+

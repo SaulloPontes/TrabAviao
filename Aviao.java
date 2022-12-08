@@ -2,7 +2,7 @@ public class Aviao {
 
     int ID;
     int combustivel;
-    Aviao proximo_no;
+    Aviao proximo_aviao;
 
 
 
@@ -11,7 +11,7 @@ public class Aviao {
 
         this.ID = ID;
         this.combustivel = combustivel;
-        this.proximo_no = null;
+        this.proximo_aviao = null;
     }
 
 

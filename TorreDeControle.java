@@ -2,6 +2,7 @@ import java.util.Objects;
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class TorreDeControle {
 
@@ -17,87 +18,169 @@ public class TorreDeControle {
     }
 
 
-    public void controleAterrizagem() throws Exception {
+    public void controlePista() throws Exception {
 
-        String chegou;
-        int id=1;
+        String encerrar;
+        int id=0;
+        int seg;
+        Date data;
+        Calendar cal;
+        Random numeroAleatorio = new Random();
+
         while (true){
             System.out.println("=========================================================================================");
-            System.out.println("chegou avião?");
-            chegou = sc.nextLine();
-            if(Objects.equals(chegou, "n")){
+
+
+            data = new Date();
+            cal = Calendar.getInstance();
+            cal.setTime(data);
+            seg = cal.get(Calendar.SECOND);
+
+            if(seg%2==1){
+
+                int qtdAviao = numeroAleatorio.nextInt((3 - 0) + 1) + 0;
+
+                System.out.println("======================= chegou: "+qtdAviao+" avião para aterrizar =======================");
+                while (qtdAviao>0){
+
+                    id++;
+                    int combustivel = numeroAleatorio.nextInt((100 - 10) + 1) + 10;
+                    Aviao av = new Aviao(id,combustivel);
+
+                    System.out.println("chegou o avião para aterrizar:"+av);
+
+                    if(pistaUm.getTotalDeAviaoParaAterrizar()==pistaDois.getTotalDeAviaoParaAterrizar()){
+
+                        this.pistaUm.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()+1);
+
+                        if(pistaUm.filaUm.getTotalDeAvioes()<pistaUm.filaDois.getTotalDeAvioes()){
+                            pistaUm.filaUm.entrarNaFila(id,combustivel);
+                        }else if(pistaUm.filaUm.getTotalDeAvioes()>pistaUm.filaDois.getTotalDeAvioes()){
+                            pistaUm.filaDois.entrarNaFila(id,combustivel);
+                        }else {
+                            pistaUm.filaUm.entrarNaFila(id,combustivel);
+                        }
+
+                    }else if(pistaUm.getTotalDeAviaoParaAterrizar()>pistaDois.getTotalDeAviaoParaAterrizar()){
+
+                        this.pistaDois.setTotalDeAviaoParaAterrizar(pistaDois.getTotalDeAviaoParaAterrizar()+1);
+
+                        if(pistaDois.filaUm.getTotalDeAvioes()<pistaDois.filaDois.getTotalDeAvioes()){
+                            pistaDois.filaUm.entrarNaFila(id,combustivel);
+                        }else if(pistaDois.filaUm.getTotalDeAvioes()>pistaDois.filaDois.getTotalDeAvioes()){
+                            pistaDois.filaDois.entrarNaFila(id,combustivel);
+                        }else{
+                            pistaDois.filaUm.entrarNaFila(id,combustivel);
+                        }
+                    }else{
+
+                        this.pistaUm.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()+1);
+
+                        if(pistaUm.filaUm.getTotalDeAvioes()<pistaUm.filaDois.getTotalDeAvioes()){
+                            pistaUm.filaUm.entrarNaFila(id,combustivel);
+                        }else if(pistaUm.filaUm.getTotalDeAvioes()>pistaUm.filaDois.getTotalDeAvioes()){
+                            pistaUm.filaDois.entrarNaFila(id,combustivel);
+                        }else {
+                            pistaUm.filaUm.entrarNaFila(id,combustivel);
+                        }
+                    }
+
+                    qtdAviao--;
+                }
+
+                System.out.println("====================PISTA:"+ pistaUm.getNumeroDaPista());
+                System.out.println("FILA 1 DE ATERRIZAGEM:");
+                pistaUm.filaUm.verFila();
+                System.out.println("===========================");
+                System.out.println("FILA 2 DE ATERRIZAGEM:");
+                pistaUm.filaDois.verFila();
+                System.out.println("====================PISTA:"+ pistaDois.getNumeroDaPista());
+                System.out.println("FILA 1 DE ATERRIZAGEM:");
+                pistaDois.filaUm.verFila();
+                System.out.println("===========================");
+                System.out.println("FILA 2 DE ATERRIZAGEM:");
+                pistaDois.filaDois.verFila();
+
+                this.pistaEmergencia(pistaUm,pistaTres);
+                this.pistaEmergencia(pistaDois,pistaTres);
+
+                this.autorizarAterrizagem(pistaUm);
+                this.autorizarAterrizagem(pistaDois);
+
+
+                pistaUm.filaUm.perderCombustivel();
+                pistaUm.filaDois.perderCombustivel();
+                pistaDois.filaUm.perderCombustivel();
+                pistaDois.filaDois.perderCombustivel();
+
+
+
+            }
+
+
+
+
+            Aviao x;
+
+            if(seg%2==0){
+
+                id++;
+
+                System.out.println("Avião chegou para decolar:"+id);
+                if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                    pistaUm.filaDecolagem.entrarNaFila(id,1000);
+                }else if(pistaUm.filaDecolagem.getTotalDeAvioes() > pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                    pistaDois.filaDecolagem.entrarNaFila(id,1000);
+                }else if (pistaUm.filaDecolagem.getTotalDeAvioes()> pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes()){
+                    pistaTres.filaDecolagem.entrarNaFila(id,1000);
+                }
+
+                System.out.println("====================PISTA:"+ pistaUm.getNumeroDaPista());
+                System.out.println("FILA DE DECOLAGEM:");
+                pistaUm.filaDecolagem.verFila();
+                System.out.println("====================PISTA:"+ pistaDois.getNumeroDaPista());
+                System.out.println("FILA DE DECOLAGEM:");
+                pistaDois.filaDecolagem.verFila();
+                System.out.println("====================PISTA:"+ pistaTres.getNumeroDaPista());
+                System.out.println("FILA DE DECOLAGEM:");
+                pistaTres.filaDecolagem.verFila();
+
+                if(seg>=30  ){
+
+                    if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                         x = pistaUm.filaDecolagem.sairDaFila();
+                        if(x!=null){
+                            System.out.println("DECOLOU:"+x);
+                        }
+                    }else if(pistaUm.filaDecolagem.getTotalDeAvioes() < pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() < pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                         x = pistaDois.filaDecolagem.sairDaFila();
+                        if(x!=null){
+                            System.out.println("DECOLOU:"+x);
+                        }
+                    }else{
+                         x = pistaTres.filaDecolagem.sairDaFila();
+                        if(x!=null){
+                            System.out.println("DECOLOU:"+x);
+                        }
+                    }
+
+                }
+            }
+
+
+
+            System.out.println("encerrar aeroporto[s/n]?");
+            encerrar = sc.nextLine();
+
+            if(Objects.equals(encerrar, "s")){
+                System.out.println("total de aviões que aterrizaram com sem reserva de combustivel: "+pistaTres.getAvioesSemReserva());
                 break;
             }
-            Date data = new Date();
-            Calendar x = Calendar.getInstance();
-            x.setTime(data);
-            int seg = x.get(Calendar.SECOND);
 
 
-            if(pistaUm.getTotalDeAviaoParaAterrizar()==pistaDois.getTotalDeAviaoParaAterrizar()){
-
-                this.pistaUm.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()+1);
-
-                if(pistaUm.filaUm.getTotalDeAvioes()==pistaUm.filaDois.getTotalDeAvioes()){
-                    pistaUm.filaUm.entrarNaFila(id,seg);
-                }else if(pistaUm.filaUm.getTotalDeAvioes()>pistaUm.filaDois.getTotalDeAvioes()){
-                    pistaUm.filaDois.entrarNaFila(id,seg);
-                }else{
-                    pistaUm.filaUm.entrarNaFila(id,seg);
-                }
-
-            }else if(pistaUm.getTotalDeAviaoParaAterrizar()>pistaDois.getTotalDeAviaoParaAterrizar()){
-
-                this.pistaDois.setTotalDeAviaoParaAterrizar(pistaDois.getTotalDeAviaoParaAterrizar()+1);
-
-                if(pistaDois.filaUm.getTotalDeAvioes()==pistaDois.filaDois.getTotalDeAvioes()){
-                    pistaDois.filaUm.entrarNaFila(id,seg);
-                }else if(pistaDois.filaUm.getTotalDeAvioes()>pistaDois.filaDois.getTotalDeAvioes()){
-                    pistaDois.filaDois.entrarNaFila(id,seg);
-                }else{
-                    pistaDois.filaUm.entrarNaFila(id,seg);
-                }
-            }else{
-
-                pistaUm.setTotalDeAviaoParaAterrizar(pistaUm.getTotalDeAviaoParaAterrizar()+1);
-
-                if(pistaUm.filaUm.getTotalDeAvioes()==pistaUm.filaDois.getTotalDeAvioes()){
-                    pistaUm.filaUm.entrarNaFila(id,seg);
-                }else if(pistaUm.filaUm.getTotalDeAvioes()>pistaUm.filaDois.getTotalDeAvioes()){
-                    pistaUm.filaDois.entrarNaFila(id,seg);
-                }else{
-                    pistaUm.filaUm.entrarNaFila(id,seg);
-                }
-            }
-
-            this.autorizarAterrizagem(pistaUm);
-            this.autorizarAterrizagem(pistaDois);
-
-
-            pistaUm.filaUm.perderCombustivel(pistaTres);
-            pistaUm.filaDois.perderCombustivel(pistaTres);
-            pistaDois.filaUm.perderCombustivel(pistaTres);
-            pistaDois.filaDois.perderCombustivel(pistaTres);
-
-
-
-
-            System.out.println("====================PISTA:"+ pistaUm.getNumeroDaPista());
-            System.out.println("FILA 1:");
-            pistaUm.filaUm.verFila();
-            System.out.println("===========================");
-            System.out.println("FILA 2:");
-            pistaUm.filaDois.verFila();
-            System.out.println("====================PISTA:"+ pistaDois.getNumeroDaPista());
-            System.out.println("FILA 1:");
-            pistaDois.filaUm.verFila();
-            System.out.println("===========================");
-            System.out.println("FILA 2:");
-            pistaDois.filaDois.verFila();
-            id++;
 
         }
-        System.out.println("total de aviões que aterrizaram com sem reserva de combustivel: "+pistaTres.getAvioesSemReserva());
+
     }
 
 
@@ -107,34 +190,90 @@ public class TorreDeControle {
 
     public void autorizarAterrizagem(Pista pista) throws Exception {
 
-
+        int comb;
         Aviao av;
 
         if(!pista.filaUm.fila_vazia()){
-            Aviao av1 = pista.filaUm.retornar_posicao(0);
 
-            if(av1.combustivel%5==0 ){
-                av = pista.filaUm.sairDaFila();
-                System.out.println("Na pista " +pista.getNumeroDaPista()+ " o avião aterrizou "+av);
+              comb = pista.filaUm.retornar_posicao(0).combustivel;
+
+
+            if(comb<=30){
+               av = pista.filaUm.sairDaFila();
+
+                System.out.println("Na pista " +pista.getNumeroDaPista()+ " o avião aterrizou:"+av);
+                if(pista.getTotalDeAviaoParaAterrizar()>0){
+                    pista.setTotalDeAviaoParaAterrizar(pista.getTotalDeAviaoParaAterrizar()-1);
+                }
             }
+
 
         }
 
         if(!pista.filaDois.fila_vazia()){
 
-            Aviao av2 = pista.filaDois.retornar_posicao(0);
-            if(av2.combustivel%5==0){
+            comb = pista.filaDois.retornar_posicao(0).combustivel;
+
+
+            if(comb<=30){
                 av = pista.filaDois.sairDaFila();
-                System.out.println("Na pista " +pista.getNumeroDaPista()+" o avião aterrizou "+av);
+
+                System.out.println("Na pista " +pista.getNumeroDaPista()+ " o avião aterrizou:"+av);
+                if(pista.getTotalDeAviaoParaAterrizar()>0){
+                    pista.setTotalDeAviaoParaAterrizar(pista.getTotalDeAviaoParaAterrizar()-1);
+                }
             }
 
         }
 
-
-
-
-
-
     }
+
+
+    public  void pistaEmergencia(Pista pista,Pista reserva){
+
+        Fila filaUmATT = new Fila() ;
+        Fila filaDoisATT = new Fila();
+        Aviao av;
+        int pos = 0;
+        int totalAviaoFilaUm = pista.filaUm.getTotalDeAvioes();
+        int totalAviaoDoisUm = pista.filaDois.getTotalDeAvioes();
+
+        while (totalAviaoFilaUm>0){
+
+           av = pista.filaUm.retornar_posicao(pos);
+
+           if(av.combustivel<=15){
+               System.out.println("AVIÃO COM POUCO COMBUSTIVEL!, usou a pista 3, "+ av);
+               reserva.filaUm.entrarNaFila(av.ID,av.combustivel);
+               reserva.setAvioesSemReserva(reserva.getAvioesSemReserva()+1);
+           }else{
+               filaUmATT.entrarNaFila(av.ID,av.combustivel);
+           }
+
+            totalAviaoFilaUm--;
+            pos++;
+        }
+        pos = 0;
+        while (totalAviaoDoisUm>0){
+
+            av = pista.filaDois.retornar_posicao(pos);
+
+            if(av.combustivel<=15){
+                System.out.println("AVIÃO COM POUCO COMBUSTIVEL!, usou a pista 3, "+ av);
+                reserva.filaUm.entrarNaFila(av.ID,av.combustivel);
+                reserva.filaUm.sairDaFila();
+                reserva.setAvioesSemReserva(reserva.getAvioesSemReserva()+1);
+            }else{
+                filaDoisATT.entrarNaFila(av.ID,av.combustivel);
+            }
+
+            totalAviaoDoisUm--;
+            pos++;
+        }
+
+        pista.filaUm = filaUmATT;
+        pista.filaDois = filaDoisATT;
+    }
+
 
 }
