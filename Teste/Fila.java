@@ -97,7 +97,7 @@ public class Fila {
 
         while(aviaoAtual != null){
 
-            aviaoAtual.combustivel = aviaoAtual.combustivel-5;
+            
 
             verifica = retornar_posicao(posicao);
 
@@ -107,7 +107,7 @@ public class Fila {
                 pistaReserva.filaUm.sairDaFila();
                 pistaReserva.setAvioesSemReserva(pistaReserva.getAvioesSemReserva()+1);
             }
-
+            aviaoAtual.combustivel = aviaoAtual.combustivel-5;
 
             aviaoAtual = aviaoAtual.proximo_aviao;
             posicao++;
