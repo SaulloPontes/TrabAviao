@@ -25,6 +25,7 @@ public class TorreDeControle {
         int seg;
         Date data;
         Calendar cal;
+
         Random numeroAleatorio = new Random();
 
         while (true){
@@ -118,21 +119,31 @@ public class TorreDeControle {
             }
 
 
+            Aviao aviaoDecolando;
 
 
-            Aviao x;
+
 
             if(seg%2==0){
 
-                id++;
+                int qtdAviao = numeroAleatorio.nextInt((3 - 0) + 1) + 0;
 
-                System.out.println("Avião chegou para decolar:"+id);
-                if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                    pistaUm.filaDecolagem.entrarNaFila(id,1000);
-                }else if(pistaUm.filaDecolagem.getTotalDeAvioes() > pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                    pistaDois.filaDecolagem.entrarNaFila(id,1000);
-                }else if (pistaUm.filaDecolagem.getTotalDeAvioes()> pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes()){
-                    pistaTres.filaDecolagem.entrarNaFila(id,1000);
+                System.out.println("======================= chegou: "+qtdAviao+" avião para Decolar =======================");
+
+                while(qtdAviao>0){
+                    id++;
+
+                    System.out.println("Avião chegou para decolar ID:"+id);
+
+                    if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                        pistaUm.filaDecolagem.entrarNaFila(id,1000);
+                    }else if(pistaUm.filaDecolagem.getTotalDeAvioes() > pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
+                        pistaDois.filaDecolagem.entrarNaFila(id,1000);
+                    }else if (pistaUm.filaDecolagem.getTotalDeAvioes()> pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() > pistaTres.filaDecolagem.getTotalDeAvioes()){
+                        pistaTres.filaDecolagem.entrarNaFila(id,1000);
+                    }
+
+                    qtdAviao--;
                 }
 
                 System.out.println("====================PISTA:"+ pistaUm.getNumeroDaPista());
@@ -148,25 +159,24 @@ public class TorreDeControle {
                 if(seg>=30  ){
 
                     if(pistaUm.filaDecolagem.getTotalDeAvioes() == pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                         x = pistaUm.filaDecolagem.sairDaFila();
-                        if(x!=null){
-                            System.out.println("DECOLOU:"+x);
+                         aviaoDecolando = pistaUm.filaDecolagem.sairDaFila();
+                        if(aviaoDecolando!=null){
+                            System.out.println("DECOLOU:"+aviaoDecolando);
                         }
                     }else if(pistaUm.filaDecolagem.getTotalDeAvioes() < pistaDois.filaDecolagem.getTotalDeAvioes() && pistaUm.filaDecolagem.getTotalDeAvioes() < pistaTres.filaDecolagem.getTotalDeAvioes() && pistaDois.filaDecolagem.getTotalDeAvioes() == pistaTres.filaDecolagem.getTotalDeAvioes()){
-                         x = pistaDois.filaDecolagem.sairDaFila();
-                        if(x!=null){
-                            System.out.println("DECOLOU:"+x);
+                         aviaoDecolando = pistaDois.filaDecolagem.sairDaFila();
+                        if(aviaoDecolando!=null){
+                            System.out.println("DECOLOU:"+aviaoDecolando);
                         }
                     }else{
-                         x = pistaTres.filaDecolagem.sairDaFila();
-                        if(x!=null){
-                            System.out.println("DECOLOU:"+x);
+                         aviaoDecolando = pistaTres.filaDecolagem.sairDaFila();
+                        if(aviaoDecolando!=null){
+                            System.out.println("DECOLOU:"+aviaoDecolando);
                         }
                     }
 
                 }
             }
-
 
 
             System.out.println("encerrar aeroporto[s/n]?");
@@ -233,6 +243,7 @@ public class TorreDeControle {
 
         Fila filaUmATT = new Fila() ;
         Fila filaDoisATT = new Fila();
+
         Aviao av;
         int pos = 0;
         int totalAviaoFilaUm = pista.filaUm.getTotalDeAvioes();
